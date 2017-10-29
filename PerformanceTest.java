@@ -39,17 +39,17 @@ public class PerformanceTest {
     System.out.println("---------Range Select---------");		
 	for (int k = 0;k <= 1;k++)
 	{
-		startTime = System.nanoTime();
+		Table testValues;
+		timeStart = System.nanoTime();
 		if (k == 1)
 		{
-			tables[0].bpIndex.subMap(new KeyType(930390), new KeyType(930409)).entrySet().forEach(e -> e.getValue());
+			tableArray[0].bpIndex.subMap(new KeyType(930390), new KeyType(930409)).entrySet().forEach(e -> e.getValue());
 		}
 		else {
-			temp = tables[0].select(t -> t[0].compareTo(930390) >= 0 && t[0].compareTo(930409) <= 0, k);
+			testValues = tableArray[0].select(t -> t[0].compareTo(930390) >= 0 && t[0].compareTo(930409) <= 0, k);
 		}
-		endTime = System.nanoTime();
-		duration = (endTime - startTime) / 1000000.0;
-		System.out.print("Range Select - ");
+		timeEnd = System.nanoTime();
+		finalTime = (timeEnd - timeStart) / 1000000.0;
 		switch(k)
 		{
 			case 0:
@@ -61,7 +61,7 @@ public class PerformanceTest {
 			default:
 				break;
 		}
-		System.out.println("Time - " + duration + " ms");
+		System.out.println("Time - " + finalTime + " ms");
 	}
 
     //-----------join tests-----------------
