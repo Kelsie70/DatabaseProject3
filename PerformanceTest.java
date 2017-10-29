@@ -1,13 +1,46 @@
-
 public class PerformanceTest {
 
 	public static void main(String[] args) {
 		Table[] tableArray = fillTables();
-		long start = System.nanoTime();
+
+    //-----------select tests---------------
+
+    System.out.println("---------Select---------");
+    long start = System.nanoTime();
+    //Sequential Select status
+    Table selectTable = tableArray[0].select(t -> t[tableArray[0].col("status")].equals("930409"));
+    long end = System.nanoTime();
+    double duration = (end - start)/1000000.0;
+    System.out.println("Sequential Select\nTime: " +duration + " ms");
+
+    for(int i=0; i<3; i++){
+      start=System.nanoTime();
+      //Index Select status
+      selectTable = tableArray[0].select(new KeyType(930409), i);
+      end = System.nanoTime();
+      duration = (end - start)/1000000.0;
+      switch(i){
+      case 0:
+        System.out.println("LinHashMap");
+        break;
+      case 1:
+        System.out.println("TreeMap");
+        break;
+      case 2:
+        System.out.println("BPlusTreeMap");
+        break;        
+      }
+      System.out.println("Time: " + duration + " ms\n");
+    }
+
+    //-----------join tests-----------------
+
+    System.out.println("---------Join---------");
+		start = System.nanoTime();
 		//Nested Join Student to Transcript
 		Table joinTable = tableArray[0].join("id", "studId", tableArray[4]);
-		long end = System.nanoTime();
-		double duration = (end - start)/1000000.0;
+		end = System.nanoTime();
+		duration = (end - start)/1000000.0;
 		System.out.println("Nested Loop Join\nTime: " + duration + " ms");
 		
 		start=System.nanoTime();
@@ -101,6 +134,5 @@ public class PerformanceTest {
         }
         Table[] tableArray = {students, professor, course, teaching, transcript};
         return tableArray;
-        
-	}
+    }
 }
