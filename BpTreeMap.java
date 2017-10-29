@@ -339,9 +339,9 @@ public class BpTreeMap <K extends Comparable <K>, V>
     @SuppressWarnings("unchecked")
     private Node insert (K key, V ref, Node n)
     {
-        out.println ("=============================================================");
-        out.println ("insert: key = " + key);
-        out.println ("=============================================================");
+        //out.println ("=============================================================");
+        //out.println ("insert: key = " + key);
+        //out.println ("=============================================================");
 
         Node rt = null;                                                      // holder for right sibling
         Node rp = null;                                                      // holder for right sibling of parent
@@ -364,7 +364,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
 
             int i = n.find (key);                                            // find "<=" position
             rt = insert (key, ref, (Node) n.ref[i]);                         // recursive call to insert
-            if (DEBUG) out.println ("insert: handle internal node level");
+            //if (DEBUG) out.println ("insert: handle internal node level");
             Node temp = (Node) n.ref[i];
 
             if(hasSplit == true) {
@@ -395,7 +395,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
 
         } // if
 
-        if (DEBUG) print (root, 0);
+        //if (DEBUG) print (root, 0);
         return rt;                                                           // return right node
     } // insert
 
@@ -428,7 +428,7 @@ public class BpTreeMap <K extends Comparable <K>, V>
     private boolean wedge (K key, Object ref, Node n, int i, boolean left)
     {
         if (i < n.nKeys && key.compareTo(n.key[i]) == 0) {
-             out.println ("BpTreeMap.insert: attempt to insert duplicate key = " + key);
+             //out.println ("BpTreeMap.insert: attempt to insert duplicate key = " + key);
              return false;
         } // if
         n.ref[n.nKeys + 1] = n.ref[n.nKeys];                          // preserving the last ref

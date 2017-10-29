@@ -204,6 +204,7 @@ public class LinHashMap <K, V>
     	}
     	Bucket currentBucket=hTable.get(i);
     	if(currentBucket.nKeys<SLOTS){
+    		
     		currentBucket.key[currentBucket.nKeys]=key;
     		currentBucket.value[currentBucket.nKeys]=value;
     		currentBucket.nKeys++;
@@ -226,7 +227,7 @@ public class LinHashMap <K, V>
         	}
     	}
     	
-        out.println ("LinearHashMap.put: key = " + key + ", h() = " + i + ", value = " + value);
+       // out.println ("LinearHashMap.put: key = " + key + ", h() = " + i + ", value = " + value);
         
         //  T O   B E   I M P L E M E N T E D
         return null;
@@ -256,7 +257,7 @@ public class LinHashMap <K, V>
     	    insertIntoCurrent(key,value,currentBucket);
     	}
     	
-        out.println ("LinearHashMap.put: key = " + key + ", h() = " + i + ", value = " + value);
+        //out.println ("LinearHashMap.put: key = " + key + ", h() = " + i + ", value = " + value);
         
         //  T O   B E   I M P L E M E N T E D
         return null;
@@ -397,7 +398,7 @@ public class LinHashMap <K, V>
      */
     private int h (Object key)
     {
-        return key.hashCode () % mod1;
+        return Math.abs(key.hashCode ()) % mod1;
     } // h
 
     /********************************************************************************
@@ -407,7 +408,7 @@ public class LinHashMap <K, V>
      */
     private int h2 (Object key)
     {
-        return key.hashCode () % mod2;
+        return Math.abs(key.hashCode ()) % mod2;
     } // h2
 
     /********************************************************************************
