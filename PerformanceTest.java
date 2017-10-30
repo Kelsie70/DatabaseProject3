@@ -46,11 +46,9 @@ public class PerformanceTest {
 		timeStart = System.nanoTime();
 		if (k == 1)
 		{
-			//tableArray[0].bpIndex.subMap(new KeyType(930390), new KeyType(930409)).entrySet().forEach(e -> e.getValue());
-			testValues = tableArray[0].select(new KeyType(930390), new KeyType(930409));
+			tableArray[0].select(test -> test[0].compareTo(930390) >= 0 && test[0].compareTo(930409) <= 0);
 		}
 		else {
-			//testValues = tableArray[0].select(t -> t[0].compareTo(930390) >= 0 && t[0].compareTo(930409) <= 0, k);
 			testValues = tableArray[0].select(new KeyType(930390), new KeyType(930409));
 		}
 		timeEnd = System.nanoTime();
