@@ -36,17 +36,22 @@ public class PerformanceTest {
 
     //-----------Range select tests---------------
 
-    System.out.println("---------Range Select---------");		
+    System.out.println("---------Range Select---------");
+	double  timeStart;
+    	double timeEnd;
+    	double finalTime;	
 	for (int k = 0;k <= 1;k++)
 	{
 		Table testValues;
 		timeStart = System.nanoTime();
 		if (k == 1)
 		{
-			tableArray[0].bpIndex.subMap(new KeyType(930390), new KeyType(930409)).entrySet().forEach(e -> e.getValue());
+			//tableArray[0].bpIndex.subMap(new KeyType(930390), new KeyType(930409)).entrySet().forEach(e -> e.getValue());
+			testValues = tableArray[0].select(new KeyType(930390), new KeyType(930409));
 		}
 		else {
-			testValues = tableArray[0].select(t -> t[0].compareTo(930390) >= 0 && t[0].compareTo(930409) <= 0, k);
+			//testValues = tableArray[0].select(t -> t[0].compareTo(930390) >= 0 && t[0].compareTo(930409) <= 0, k);
+			testValues = tableArray[0].select(new KeyType(930390), new KeyType(930409));
 		}
 		timeEnd = System.nanoTime();
 		finalTime = (timeEnd - timeStart) / 1000000.0;
