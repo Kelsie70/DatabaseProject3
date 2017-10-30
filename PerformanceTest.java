@@ -46,23 +46,23 @@ public class PerformanceTest {
 		timeStart = System.nanoTime();
 		if (k == 1)
 		{
-			tableArray[0].select(test -> test[0].compareTo(930390) >= 0 && test[0].compareTo(930409) <= 0);
+		tableArray[0].select(test -> test[0].compareTo(930390) >= 0 && test[0].compareTo(930409) <= 0);
 		}
 		else {
-			testValues = tableArray[0].select(new KeyType(930390), new KeyType(930409));
+		testValues = tableArray[0].select(new KeyType(930390), new KeyType(930409));
 		}
 		timeEnd = System.nanoTime();
 		finalTime = (timeEnd - timeStart) / 1000000.0;
 		switch(k)
 		{
-			case 0:
-				System.out.println("TreeMap");
-				break;
-			case 1:
-				System.out.println("BPTreeMap");
-				break;
-			default:
-				break;
+		case 0:
+			System.out.println("TreeMap");
+			break;
+		case 1:
+			System.out.println("BPTreeMap");
+			break;
+		default:
+			break;
 		}
 		System.out.println("Time - " + finalTime + " ms");
 	}
