@@ -69,7 +69,7 @@ public class Table
 
     /** The map type to be used for indices.  Change as needed.
      */
-    private static final MapType mType = MapType.LINHASH_MAP;
+    private static MapType mType = MapType.LINHASH_MAP;
 
     /************************************************************************************
      * Make a map (index) given the MapType.
@@ -256,6 +256,7 @@ public class Table
 
         List <Comparable []> rows = new ArrayList <> ();
         if(map == 0){ //linhash map
+            mType = MapType.LINHASH_MAP;
             rows.add(index.get(keyVal));
             if(rows.get(0)==null){
                 rows.remove(0);
@@ -263,6 +264,7 @@ public class Table
             }
         }
         else if(map == 1){ //tree map
+            mType = MapType.TREE_MAP;
             for(int k=0;k<this.tuples.size();k++){
                 for(int j=0;j<this.tuples.get(k).length;j++){
                     KeyType newKey = new KeyType (tuples.get(k)[j]);
@@ -273,6 +275,7 @@ public class Table
             }
         }
         else if(map == 2) { //bptree map
+            mType = MapType.BPTREE_MAP;
             rows.add(index.get(keyVal));
         }
 
@@ -679,14 +682,14 @@ public class Table
             String[] keyArrayT2=attributes2.split(" ");
             Table table1=this;
             if(Arrays.equals(keyArrayT1, this.key) && !Arrays.equals(keyArrayT2, table2.key)){
-            	Table temp;
-            	String[] stringTemp;
-            	temp=table1;
-            	table1=table2;
-            	table2=temp;
-            	stringTemp=keyArrayT1;
-            	keyArrayT1=keyArrayT2;
-            	keyArrayT2=stringTemp;
+                Table temp;
+                String[] stringTemp;
+                temp=table1;
+                table1=table2;
+                table2=temp;
+                stringTemp=keyArrayT1;
+                keyArrayT1=keyArrayT2;
+                keyArrayT2=stringTemp;
             }
             for(Comparable[] b : table2.tuples){
                 ArrayList<Comparable> valuesB =new ArrayList<Comparable>(); 
@@ -768,14 +771,14 @@ public class Table
             String[] keyArrayT2=attributes2.split(" ");
             Table table1=this;
             if(Arrays.equals(keyArrayT1, this.key) && !Arrays.equals(keyArrayT2, table2.key)){
-            	Table temp;
-            	String[] stringTemp;
-            	temp=table1;
-            	table1=table2;
-            	table2=temp;
-            	stringTemp=keyArrayT1;
-            	keyArrayT1=keyArrayT2;
-            	keyArrayT2=stringTemp;
+                Table temp;
+                String[] stringTemp;
+                temp=table1;
+                table1=table2;
+                table2=temp;
+                stringTemp=keyArrayT1;
+                keyArrayT1=keyArrayT2;
+                keyArrayT2=stringTemp;
             }
             List <Comparable[]> rows = new ArrayList <> ();     
             for(Comparable[] b : table2.tuples){
@@ -837,14 +840,14 @@ public class Table
             String[] keyArrayT2=attributes2.split(" ");
             Table table1=this;
             if(Arrays.equals(keyArrayT1, this.key) && !Arrays.equals(keyArrayT2, table2.key)){
-            	Table temp;
-            	String[] stringTemp;
-            	temp=table1;
-            	table1=table2;
-            	table2=temp;
-            	stringTemp=keyArrayT1;
-            	keyArrayT1=keyArrayT2;
-            	keyArrayT2=stringTemp;
+                Table temp;
+                String[] stringTemp;
+                temp=table1;
+                table1=table2;
+                table2=temp;
+                stringTemp=keyArrayT1;
+                keyArrayT1=keyArrayT2;
+                keyArrayT2=stringTemp;
             }
             List <Comparable[]> rows = new ArrayList <> ();     
             for(Comparable[] b : table2.tuples){
@@ -919,14 +922,14 @@ public class Table
         String[] keyArrayT2=attributes2.split(" ");
         Table table1=this;
         if(Arrays.equals(keyArrayT1, this.key) && !Arrays.equals(keyArrayT2, table2.key)){
-        	Table temp;
-        	String[] stringTemp;
-        	temp=table1;
-        	table1=table2;
-        	table2=temp;
-        	stringTemp=keyArrayT1;
-        	keyArrayT1=keyArrayT2;
-        	keyArrayT2=stringTemp;
+            Table temp;
+            String[] stringTemp;
+            temp=table1;
+            table1=table2;
+            table2=temp;
+            stringTemp=keyArrayT1;
+            keyArrayT1=keyArrayT2;
+            keyArrayT2=stringTemp;
         }
         List <Comparable[]> rows = new ArrayList <> ();     
         for(Comparable[] b : table2.tuples){
