@@ -883,10 +883,14 @@ public class Table
                 }
                 Comparable[] b=bp.get(new KeyType(keyVal));
                 ArrayList<Comparable> joinedRow=new ArrayList<Comparable>();
-                Comparable[] fullRow=ArrayUtil.concat(a, b);
-                for(Comparable c:fullRow){
-                    joinedRow.add(c);
+                
+		if(b != null){
+		    Comparable[] fullRow=ArrayUtil.concat(a, b);
+		    for(Comparable c:fullRow){
+			joinedRow.add(c);
+		    }
                 }
+
                 int length=table1.attribute.length+table2.attribute.length-1;
                 Comparable[] completedRow=joinedRow.toArray(new Comparable[length]);
                 rows.add(completedRow);
