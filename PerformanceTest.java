@@ -1,7 +1,7 @@
 public class PerformanceTest {
 
-	public static void main(String[] args) {
-		Table[] tableArray = fillTables();
+  public static void main(String[] args) {
+    Table[] tableArray = fillTables();
 
     //-----------select tests---------------
 
@@ -32,81 +32,81 @@ public class PerformanceTest {
       }
       System.out.println("Time: " + duration + " ms\n");
     }
-		
+    
 
     //-----------Range select tests---------------
 
     System.out.println("---------Range Select---------");
-	double  timeStart;
-    	double timeEnd;
-    	double finalTime;	
-	for (int k = 0;k <= 1;k++)
-	{
-		Table testValues;
-		timeStart = System.nanoTime();
-		if (k == 1)
-		{
-		tableArray[0].select(test -> test[0].compareTo(930390) >= 0 && test[0].compareTo(930409) <= 0);
-		}
-		else {
-		testValues = tableArray[0].select(new KeyType(930390), new KeyType(930409));
-		}
-		timeEnd = System.nanoTime();
-		finalTime = (timeEnd - timeStart) / 1000000.0;
-		switch(k)
-		{
-		case 0:
-			System.out.println("TreeMap");
-			break;
-		case 1:
-			System.out.println("BPTreeMap");
-			break;
-		default:
-			break;
-		}
-		System.out.println("Time - " + finalTime + " ms");
-	}
+  double  timeStart;
+      double timeEnd;
+      double finalTime; 
+  for (int k = 0;k <= 1;k++)
+  {
+    Table testValues;
+    timeStart = System.nanoTime();
+    if (k == 1)
+    {
+    tableArray[0].select(test -> test[0].compareTo(930390) >= 0 && test[0].compareTo(930409) <= 0);
+    }
+    else {
+    testValues = tableArray[0].select(new KeyType(930390), new KeyType(930409));
+    }
+    timeEnd = System.nanoTime();
+    finalTime = (timeEnd - timeStart) / 1000000.0;
+    switch(k)
+    {
+    case 0:
+      System.out.println("TreeMap");
+      break;
+    case 1:
+      System.out.println("BPTreeMap");
+      break;
+    default:
+      break;
+    }
+    System.out.println("Time - " + finalTime + " ms");
+  }
 
     //-----------join tests-----------------
 
     System.out.println("---------Join---------");
-		start = System.nanoTime();
-		//Nested Join Student to Transcript
-		Table joinTable = tableArray[0].join("id", "studId", tableArray[4]);
-		end = System.nanoTime();
-		duration = (end - start)/1000000.0;
-		System.out.println("Nested Loop Join\nTime: " + duration + " ms");
-		
-		start=System.nanoTime();
-		//Hash Join Student to Transcript
-		joinTable = tableArray[4].h_join("studId", "id", tableArray[0]);
-		end = System.nanoTime();
-		duration = (end - start)/1000000.0;
-		System.out.println("Hash Join\nTime: " + duration + " ms");
-		
-		for(int i=0; i<3; i++){
-			start=System.nanoTime();
-			//Index Join Student to Transcript
-			joinTable = tableArray[4].i_join("studId", "id", tableArray[0],i);
-			end = System.nanoTime();
-			duration = (end - start)/1000000.0;
-			switch(i){
-			case 0:
-				System.out.println("TreeMap");
-				break;
-			case 1:
-				System.out.println("LinHashMap");
-				break;
-			case 2:
-				System.out.println("BPlusTreeMap");
-				break;				
-			}
-			System.out.println("Time: " + duration + " ms");
-		}
-	}
+    start = System.nanoTime();
+    //Nested Join Student to Transcript
+    Table joinTable = tableArray[0].join("id", "studId", tableArray[4]);
+    end = System.nanoTime();
+    duration = (end - start)/1000000.0;
+    System.out.println("Nested Loop Join\nTime: " + duration + " ms");
+    
+    start=System.nanoTime();
+    //Hash Join Student to Transcript
+    joinTable = tableArray[4].h_join("studId", "id", tableArray[0]);
+    end = System.nanoTime();
+    duration = (end - start)/1000000.0;
+    System.out.println("Hash Join\nTime: " + duration + " ms");
+    
+    for(int i=0; i<3; i++){
+      start=System.nanoTime();
+      //Index Join Student to Transcript
+      joinTable = tableArray[4].i_join("studId", "id", tableArray[0],i);
+      end = System.nanoTime();
+      duration = (end - start)/1000000.0;
+      switch(i){
+      case 0:
+        System.out.println("TreeMap");
+        break;
+      case 1:
+        System.out.println("LinHashMap");
+        break;
+      case 2:
+        System.out.println("BPlusTreeMap");
+        break;        
+      }
+      System.out.println("Time: " + duration + " ms");
+    }
+  }
 
-	public static Table[] fillTables(){
-		TupleGenerator test = new TupleGeneratorImpl ();
+  public static Table[] fillTables(){
+    TupleGenerator test = new TupleGeneratorImpl ();
 
         test.addRelSchema ("Student",
                            "id name address status",
@@ -142,7 +142,7 @@ public class PerformanceTest {
                                             { "crsCode semester", "Teaching", "crsCode semester" }});
 
         
-        int tups [] = new int [] { 30, 15, 10, 25, 18 };
+        int tups [] = new int [] { 2500, 15, 10, 25, 18 };
     
         Comparable [][][] resultTest = test.generate (tups);
          
@@ -152,19 +152,19 @@ public class PerformanceTest {
         Table teaching = new Table("Teaching", "crsCode semester profId", "String String Integer", "crsCode semester");
         Table transcript = new Table("Transcript", "studId crsCode semester grade", "Integer String String String", "studId crsCode semester");
         for (Comparable [] tup : resultTest[0]){
-        	students.insert(tup);
+          students.insert(tup);
         }
         for (Comparable [] tup : resultTest[1]){
-        	professor.insert(tup);
+          professor.insert(tup);
         }
         for (Comparable [] tup : resultTest[2]){
-        	course.insert(tup);
+          course.insert(tup);
         }
         for (Comparable [] tup : resultTest[3]){
-        	teaching.insert(tup);
+          teaching.insert(tup);
         }
         for (Comparable [] tup : resultTest[4]){
-        	transcript.insert(tup);
+          transcript.insert(tup);
         }
         Table[] tableArray = {students, professor, course, teaching, transcript};
         return tableArray;
