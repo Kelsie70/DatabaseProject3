@@ -677,6 +677,17 @@ public class Table
             TreeMap<KeyType,List<Comparable[]>> treemapJoin= new TreeMap<KeyType,List <Comparable[]>>();  
             String[] keyArrayT1=attributes1.split(" ");
             String[] keyArrayT2=attributes2.split(" ");
+            Table table1=this;
+            if(Arrays.equals(keyArrayT1, this.key) && !Arrays.equals(keyArrayT2, table2.key)){
+            	Table temp;
+            	String[] stringTemp;
+            	temp=table1;
+            	table1=table2;
+            	table2=temp;
+            	stringTemp=keyArrayT1;
+            	keyArrayT1=keyArrayT2;
+            	keyArrayT2=stringTemp;
+            }
             for(Comparable[] b : table2.tuples){
                 ArrayList<Comparable> valuesB =new ArrayList<Comparable>(); 
                 ArrayList<Integer> indexB =new ArrayList<Integer>();
@@ -711,10 +722,10 @@ public class Table
                 
             }
             List <Comparable[]> rows = new ArrayList <> ();
-            for(Comparable[]a: tuples){
+            for(Comparable[]a: table1.tuples){
                 ArrayList<Comparable> valuesA=new ArrayList<Comparable>();          
                 for(String s:keyArrayT1){
-                    int index=Arrays.asList(this.attribute).indexOf(s);
+                    int index=Arrays.asList(table1.attribute).indexOf(s);
                     if(index==-1){
                         return null;
                     }
@@ -733,7 +744,7 @@ public class Table
                 for(Comparable c:fullRow){
                     joinedRow.add(c);
                 }
-                int length=attribute.length+table2.attribute.length-1;
+                int length=table1.attribute.length+table2.attribute.length-1;
                 Comparable[] completedRow=joinedRow.toArray(new Comparable[length]);
                 rows.add(completedRow);
             }
@@ -747,14 +758,25 @@ public class Table
             if(rows.size()==0){
                 return null;
             }
-            return new Table (name + count++, ArrayUtil.concat (attribute, updatedAttributesArray),
-                    ArrayUtil.concat (domain, table2.domain), key, rows);
+            return new Table (table1.name + table1.count++, ArrayUtil.concat (table1.attribute, updatedAttributesArray),
+                    ArrayUtil.concat (table1.domain, table2.domain), table1.key, rows);
             
         }
         else if(map == 1){
             LinHashMap <KeyType, Comparable[]> ht = new LinHashMap <> (KeyType.class, Comparable [].class);
             String[] keyArrayT1=attributes1.split(" ");
             String[] keyArrayT2=attributes2.split(" ");
+            Table table1=this;
+            if(Arrays.equals(keyArrayT1, this.key) && !Arrays.equals(keyArrayT2, table2.key)){
+            	Table temp;
+            	String[] stringTemp;
+            	temp=table1;
+            	table1=table2;
+            	table2=temp;
+            	stringTemp=keyArrayT1;
+            	keyArrayT1=keyArrayT2;
+            	keyArrayT2=stringTemp;
+            }
             List <Comparable[]> rows = new ArrayList <> ();     
             for(Comparable[] b : table2.tuples){
                 ArrayList<Comparable> valuesB=new ArrayList<Comparable>(); 
@@ -778,10 +800,10 @@ public class Table
                 }
                 ht.put(new KeyType(keyVal), b);
             }
-            for(Comparable[] a : tuples){
+            for(Comparable[] a : table1.tuples){
                 Comparable [] keyVal=new Comparable[keyArrayT1.length];
                 for(int j=0;j<keyArrayT1.length;j++){
-                    int index=Arrays.asList(attribute).indexOf(keyArrayT1[j]);
+                    int index=Arrays.asList(table1.attribute).indexOf(keyArrayT1[j]);
                     if(index==-1){
                         return null;
                     }
@@ -793,7 +815,7 @@ public class Table
                 for(Comparable c:fullRow){
                     joinedRow.add(c);
                 }
-                int length=attribute.length+table2.attribute.length-1;
+                int length=table1.attribute.length+table2.attribute.length-1;
                 Comparable[] completedRow=joinedRow.toArray(new Comparable[length]);
                 rows.add(completedRow);
             }
@@ -804,15 +826,26 @@ public class Table
             }
             String[] updatedAttributesArray=updatedAttributes.toArray(new String[table2.attribute.length-keyArrayT2.length]);
             if(rows.size()==0){
-                rows.add(new Comparable[attribute.length]);
+                rows.add(new Comparable[table1.attribute.length]);
             }
-            return new Table (name + count++, ArrayUtil.concat (attribute, updatedAttributesArray),
-                    ArrayUtil.concat (domain, table2.domain), key, rows);
+            return new Table (table1.name + table1.count++, ArrayUtil.concat (table1.attribute, updatedAttributesArray),
+                    ArrayUtil.concat (table1.domain, table2.domain), table1.key, rows);
     }
     else if(map == 2) {
         BpTreeMap <KeyType, Comparable[]> bp = new BpTreeMap <> (KeyType.class, Comparable [].class);
             String[] keyArrayT1=attributes1.split(" ");
             String[] keyArrayT2=attributes2.split(" ");
+            Table table1=this;
+            if(Arrays.equals(keyArrayT1, this.key) && !Arrays.equals(keyArrayT2, table2.key)){
+            	Table temp;
+            	String[] stringTemp;
+            	temp=table1;
+            	table1=table2;
+            	table2=temp;
+            	stringTemp=keyArrayT1;
+            	keyArrayT1=keyArrayT2;
+            	keyArrayT2=stringTemp;
+            }
             List <Comparable[]> rows = new ArrayList <> ();     
             for(Comparable[] b : table2.tuples){
                 ArrayList<Comparable> valuesB=new ArrayList<Comparable>(); 
@@ -836,10 +869,10 @@ public class Table
                 }
                 bp.put(new KeyType(keyVal), b);
             }
-            for(Comparable[] a : tuples){
+            for(Comparable[] a : table1.tuples){
                 Comparable [] keyVal=new Comparable[keyArrayT1.length];
                 for(int j=0;j<keyArrayT1.length;j++){
-                    int index=Arrays.asList(attribute).indexOf(keyArrayT1[j]);
+                    int index=Arrays.asList(table1.attribute).indexOf(keyArrayT1[j]);
                     if(index==-1){
                         return null;
                     }
@@ -851,7 +884,7 @@ public class Table
                 for(Comparable c:fullRow){
                     joinedRow.add(c);
                 }
-                int length=attribute.length+table2.attribute.length-1;
+                int length=table1.attribute.length+table2.attribute.length-1;
                 Comparable[] completedRow=joinedRow.toArray(new Comparable[length]);
                 rows.add(completedRow);
             }
@@ -862,10 +895,10 @@ public class Table
             }
             String[] updatedAttributesArray=updatedAttributes.toArray(new String[table2.attribute.length-keyArrayT2.length]);
             if(rows.size()==0){
-                rows.add(new Comparable[attribute.length]);
+                rows.add(new Comparable[table1.attribute.length]);
             }
-            return new Table (name + count++, ArrayUtil.concat (attribute, updatedAttributesArray),
-                    ArrayUtil.concat (domain, table2.domain), key, rows);
+            return new Table (table1.name + table1.count++, ArrayUtil.concat (table1.attribute, updatedAttributesArray),
+                    ArrayUtil.concat (table1.domain, table2.domain), table1.key, rows);
     }
         return null;
     } // i_join
@@ -884,6 +917,17 @@ public class Table
         HashMap <KeyType, Comparable[]> ht = new HashMap<KeyType, Comparable[]>();  
         String[] keyArrayT1=attributes1.split(" ");
         String[] keyArrayT2=attributes2.split(" ");
+        Table table1=this;
+        if(Arrays.equals(keyArrayT1, this.key) && !Arrays.equals(keyArrayT2, table2.key)){
+        	Table temp;
+        	String[] stringTemp;
+        	temp=table1;
+        	table1=table2;
+        	table2=temp;
+        	stringTemp=keyArrayT1;
+        	keyArrayT1=keyArrayT2;
+        	keyArrayT2=stringTemp;
+        }
         List <Comparable[]> rows = new ArrayList <> ();     
         for(Comparable[] b : table2.tuples){
             ArrayList<Comparable> valuesB=new ArrayList<Comparable>(); 
@@ -907,10 +951,10 @@ public class Table
             }
             ht.put(new KeyType(keyVal), b);
         }
-        for(Comparable[] a : tuples){
+        for(Comparable[] a : table1.tuples){
             Comparable [] keyVal=new Comparable[keyArrayT1.length];
             for(int j=0;j<keyArrayT1.length;j++){
-                int index=Arrays.asList(attribute).indexOf(keyArrayT1[j]);
+                int index=Arrays.asList(table1.attribute).indexOf(keyArrayT1[j]);
                 if(index==-1){
                     return null;
                 }
@@ -922,7 +966,7 @@ public class Table
             for(Comparable c:fullRow){
                 joinedRow.add(c);
             }
-            int length=attribute.length+table2.attribute.length-1;
+            int length=table1.attribute.length+table2.attribute.length-1;
             Comparable[] completedRow=joinedRow.toArray(new Comparable[length]);
             rows.add(completedRow);
         }
@@ -933,10 +977,10 @@ public class Table
         }
         String[] updatedAttributesArray=updatedAttributes.toArray(new String[table2.attribute.length-keyArrayT2.length]);
         if(rows.size()==0){
-            rows.add(new Comparable[attribute.length]);
+            rows.add(new Comparable[table1.attribute.length]);
         }
-        return new Table (name + count++, ArrayUtil.concat (attribute, updatedAttributesArray),
-                ArrayUtil.concat (domain, table2.domain), key, rows);
+        return new Table (table1.name + table1.count++, ArrayUtil.concat (table1.attribute, updatedAttributesArray),
+                ArrayUtil.concat (table1.domain, table2.domain), table1.key, rows);
     } // h_join
 
     /************************************************************************************
@@ -1039,7 +1083,7 @@ public class Table
      */
     public boolean insert (Comparable [] tup)
     {
-        out.println ("DML> insert into " + name + " values ( " + Arrays.toString (tup) + " )");
+        //out.println ("DML> insert into " + name + " values ( " + Arrays.toString (tup) + " )");
 
         if (typeCheck (tup)) {
             tuples.add (tup);
