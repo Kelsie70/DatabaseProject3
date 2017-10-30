@@ -15,11 +15,19 @@ ________________________________________________________
 
 $ javac [.java file name]
 
+or
+
+$ sbt compile (works better with junit test files included)
+
 ________________________________________________________
 To Run Programs
 ________________________________________________________
 
 $ java [file name]
+
+or
+
+$ sbt run
 
 ________________________________________________________
 To Run JUnit Tests
