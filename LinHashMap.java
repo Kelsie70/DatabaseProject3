@@ -15,6 +15,7 @@ import java.util.*;
  * This class provides hash maps that use the Linear Hashing algorithm.
  * A hash table is created that is an array of buckets.
  */
+
 public class LinHashMap <K, V>
        extends AbstractMap <K, V>
        implements Serializable, Cloneable, Map <K, V>
@@ -40,6 +41,7 @@ public class LinHashMap <K, V>
         K []   key;
         V []   value;
         Bucket next;
+        Bucket parent;
 
         @SuppressWarnings("unchecked")
         Bucket (Bucket n)
@@ -48,6 +50,7 @@ public class LinHashMap <K, V>
             key   = (K []) Array.newInstance (classK, SLOTS);
             value = (V []) Array.newInstance (classV, SLOTS);
             next  = n;
+            parent = null;
         } // constructor
     } // Bucket inner class
 
@@ -174,7 +177,7 @@ public class LinHashMap <K, V>
     	}
     	else{
 	    	for(int j=0;j<currentBucket.nKeys;j++){
-	        	if(currentBucket.key[j]==key){
+	        	if(currentBucket.key[j].equals(key)){
 	        		ret=currentBucket.value[j];
 	        		return ret;
 	        	}
@@ -277,7 +280,8 @@ public class LinHashMap <K, V>
     	}
     	else{
 			if(currentBucket.next==null){
-				currentBucket.next=new Bucket(null);
+				currentBucket.next = new Bucket(null);
+				currentBucket.next.parent = currentBucket;
 			}
 			insertIntoCurrent(key,value,currentBucket.next);
 		}
@@ -325,24 +329,31 @@ public class LinHashMap <K, V>
 				currentMod=h2(overflow.key[j]);
 			}
 			Bucket moveBucket=hTable.get(currentMod);
-			if(moveBucket!=parent || parent.nKeys<SLOTS){
+			Bucket originalParent=parent;
+			while(originalParent.parent != null){
+				originalParent = originalParent.parent;
+			}
+			if(moveBucket!=originalParent || parent.nKeys<SLOTS){
 				putNoSplit(overflow.key[j],overflow.value[j]);
 				ArrayList <K> keyCopy=new ArrayList <> (Arrays.asList(overflow.key)); 
 				ArrayList <V> valueCopy=new ArrayList <> (Arrays.asList(overflow.value));
 				keyCopy.remove(j);
 				valueCopy.remove(j);
 				overflow.key=keyCopy.toArray((K []) Array.newInstance (classK, SLOTS));
-				overflow.value=valueCopy.toArray((V []) Array.newInstance (classV, SLOTS));				
+				overflow.value=valueCopy.toArray((V []) Array.newInstance (classV, SLOTS));	
 				if(j<overflow.nKeys-1){
 					j--;
+				}				
+				overflow.nKeys--;
+				if(overflow.nKeys <= 0){
+					break;
 				}
-				overflow.nKeys--;			
 			}
-		}
+		}  
     	if(overflow.next!=null){
 			reorganizeOverflow(overflow,overflow.next);
 		}
-		if(overflow.nKeys==0){
+    	if(overflow.nKeys==0){
 			parent.next=null;
 		}
     }
@@ -418,22 +429,22 @@ public class LinHashMap <K, V>
     public static void main (String [] args)
     {
 
-        int totalKeys    = 30;
-        boolean RANDOMLY = true;
+        int totalKeys    = 320;
+        boolean RANDOMLY = false;
 
         LinHashMap <Integer, Integer> ht = new LinHashMap <> (Integer.class, Integer.class, 4);
         if (args.length == 1) totalKeys = Integer.valueOf (args [0]);
 
         if (RANDOMLY) {
             Random rng = new Random ();
-            for (int i = 1; i <= totalKeys; i += 1) ht.put (rng.nextInt (2 * totalKeys), i * i);
+            for (int i = 1; i <= totalKeys; i += 1) ht.put (rng.nextInt (2 * totalKeys), i * 1);
         } else {
-            for (int i = 1; i <= totalKeys; i += 1) ht.put (i, i * i);
+            for (int i = 1; i <= totalKeys; i += 1) ht.put (i, i * 1);
         } // if
 
         ht.print ();
         for (int i = 0; i <= totalKeys; i++) {
-            out.println ("key = " + i + " value = " + ht.get (i));
+    		out.println ("key = " + i + " value = " + ht.get (i));
         } // for
         out.println ("-------------------------------------------");
         out.println ("Average number of buckets accessed = " + ht.count / (double) totalKeys);

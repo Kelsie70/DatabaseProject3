@@ -1,7 +1,7 @@
 public class PerformanceTest {
 
   public static void main(String[] args) {
-	  for(int n=20;n<1000;n*=2){
+	  for(int n=20;n<=1280;n*=2){
 		 Table[] tableArray = fillTables(n);
 	
 	     //-----------Select Tests---------------
@@ -12,7 +12,7 @@ public class PerformanceTest {
 	     Table selectTable = tableArray[0].select(t -> t[tableArray[0].col("status")].equals("930409"));
 	     long end = System.nanoTime();
 	     double duration = (end - start)/1000000.0;
-	     System.out.println("Sequential Select\nTime: " +duration + " ms");
+	     System.out.println("Sequential Select\nTime: " + duration + " ms");
 	
          start=System.nanoTime();
          //Index Select status
@@ -72,6 +72,7 @@ public class PerformanceTest {
 	      duration = (end - start)/1000000.0;
 	      System.out.println("Index Join");
 	      System.out.println("Time: " + duration + " ms");
+	      System.out.println(n);
       }
   }
 
@@ -121,12 +122,9 @@ public class PerformanceTest {
         Table course = new Table("Course", "crsCode deptId crsName descr", "String String String String", "crsCode");
         Table teaching = new Table("Teaching", "crsCode semester profId", "String String Integer", "crsCode semester");
         Table transcript = new Table("Transcript", "studId crsCode semester grade", "Integer String String String", "studId crsCode semester");
-        int count=0;
         for (Comparable [] tup : resultTest[0]){
           students.insert(tup);
-          count++;
-        }
-        System.out.println(count);
+        }        
         for (Comparable [] tup : resultTest[1]){
           professor.insert(tup);
         }
