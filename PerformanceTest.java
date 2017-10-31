@@ -3,6 +3,7 @@ public class PerformanceTest {
   public static void main(String[] args) {
 	  for(int n=20;n<=1280;n*=2){
 		 Table[] tableArray = fillTables(n);
+		 System.out.println("\n----------Number of Tuples: " + n + "----------");
 	
 	     //-----------Select Tests---------------
 	
@@ -38,7 +39,7 @@ public class PerformanceTest {
 		 timeEnd = System.nanoTime();
 		 finalTime = (timeEnd - timeStart) / 1000000.0;
 		 System.out.println("Sequential Range Select");
-		 System.out.println("Time - " + finalTime + " ms");
+		 System.out.println("Time: " + finalTime + " ms");
 		 
 		 //Index Range Select
 		 timeStart = System.nanoTime();
@@ -46,7 +47,7 @@ public class PerformanceTest {
 	     timeEnd = System.nanoTime();
 	     finalTime = (timeEnd - timeStart) / 1000000.0;
 	     System.out.println("Index Range Select");
-	     System.out.println("Time - " + finalTime + " ms");
+	     System.out.println("Time: " + finalTime + " ms\n");
 	
 	      //-----------Join Tests-----------------
 	
@@ -71,8 +72,8 @@ public class PerformanceTest {
 	      end = System.nanoTime();
 	      duration = (end - start)/1000000.0;
 	      System.out.println("Index Join");
-	      System.out.println("Time: " + duration + " ms");
-	      System.out.println(n);
+	      System.out.println("Time: " + duration + " ms\n");
+	      
       }
   }
 
